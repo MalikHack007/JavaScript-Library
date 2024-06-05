@@ -54,7 +54,7 @@ bookForm.addEventListener('submit', (event)=>{
 
 function deleteButtonSetUp(event){
     console.log('delete button clicked');
-    let parentTableRow = event.target.parentNode.parentNode;
+    let parentTableRow = event.target.parentNode.parentNode.parentNode;
     let bookInfoStorage = [];
     for(let i = 0; i < parentTableRow.childNodes.length - 1; i++){
         bookInfoStorage.push(parentTableRow.childNodes[i].textContent);
@@ -71,6 +71,22 @@ function deleteButtonSetUp(event){
     console.log('form built');
 }
 
+function readButtonSetUp(event){
+    let parentTableRow = event.target.parentNode.parentNode.parentNode;
+    let bookInfoStorage = [];
+    for(let i = 0; i < parentTableRow.childNodes.length - 1; i++){
+        bookInfoStorage.push(parentTableRow.childNodes[i].textContent);
+    }
+    let identifiedBook = new book(bookInfoStorage[0], bookInfoStorage[1], bookInfoStorage[2], bookInfoStorage[3]);
+    library.forEach((singleBook)=>{
+        if(singleBook.name == identifiedBook.name && singleBook.year == identifiedBook.year && singleBook.author == identifiedBook.author && singleBook.read == identifiedBook.read){
+            singleBook.read = 'Read';
+        } 
+    }) //change the status to read
+
+    buildFormFromLibrary(library);
+}
+
 function buildFormFromLibrary(library){
     let deleteButton;
     let readButton;
@@ -85,13 +101,19 @@ function buildFormFromLibrary(library){
         readButton = document.createElement('button');
         readButton.textContent = 'Read';
         deleteButton = document.createElement('button');
+        readButton.classList.add('readButton');
         deleteButton.textContent = 'Delete';
-        buttonCell = document.createElement('td');
-        buttonCell.appendChild(readButton);
-        buttonCell.appendChild(deleteButton);
+        deleteButton.classList.add('deleteButton');
+        let buttonCell = document.createElement('td');
+        let buttonDiv = document.createElement('div');
+        buttonDiv.classList.add('buttonContainer');
+        buttonDiv.appendChild(readButton);
+        buttonDiv.appendChild(deleteButton);
+        buttonCell.appendChild(buttonDiv);
         newBookRow.appendChild(buttonCell);
         bookTable.appendChild(newBookRow);
         deleteButton.addEventListener('click', deleteButtonSetUp);
+        readButton.addEventListener('click', readButtonSetUp);
     })
 
 }
