@@ -84,10 +84,14 @@ function readButtonSetUp(event){
     }
     let identifiedBook = new book(bookInfoStorage[0], bookInfoStorage[1], bookInfoStorage[2], bookInfoStorage[3]);
     library.forEach((singleBook)=>{
-        if(singleBook.name == identifiedBook.name && singleBook.year == identifiedBook.year && singleBook.author == identifiedBook.author && singleBook.read == identifiedBook.read){
+        if(singleBook.name == identifiedBook.name && singleBook.year == identifiedBook.year && singleBook.author == identifiedBook.author && singleBook.read == identifiedBook.read && singleBook.read == "Not Read"){
             singleBook.read = 'Read';
-        } 
-    }) //change the status to read
+        }
+        
+        else if (singleBook.name == identifiedBook.name && singleBook.year == identifiedBook.year && singleBook.author == identifiedBook.author && singleBook.read == identifiedBook.read && singleBook.read == "Read"){
+            singleBook.read = 'Not Read';
+        }
+    }) //change the status to read or unread
 
     buildFormFromLibrary(library);
 }
@@ -103,10 +107,17 @@ function buildFormFromLibrary(library){
             newBookData.textContent = value;
             newBookRow.appendChild(newBookData);
         })
+        //if the read status is read, then give it unread button
         readButton = document.createElement('button');
-        readButton.textContent = 'Read';
-        deleteButton = document.createElement('button');
+        if(eachBook.read == "Not Read"){
+            readButton.textContent = 'Read';
+        }
+
+        else{
+            readButton.textContent = "Unread";
+        }
         readButton.classList.add('readButton');
+        deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.classList.add('deleteButton');
         let buttonCell = document.createElement('td');
