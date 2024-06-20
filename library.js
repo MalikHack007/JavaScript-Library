@@ -45,6 +45,11 @@ bookForm.addEventListener('submit', (event)=>{
     //Function to build the form out of the library
     buildFormFromLibrary(library);
 
+    bookNameInput.value = "";
+    authorInput.value = "";
+    bookYearInput.value = "";
+    readStatus.checked = false;
+
     console.log(library);
 
     newBookIntakeDialog.close();
